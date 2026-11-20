@@ -11,11 +11,11 @@ const LEVELS=[{n:'Искра',at:0},{n:'Новичок',at:5e4},{n:'Шахтёр
 const SKINS=[{id:'amethyst',name:'Аметист',hue:270},{id:'emerald',name:'Изумруд',hue:150,lvl:3},{id:'ruby',name:'Рубин',hue:350,lvl:5},{id:'sapphire',name:'Сапфир',hue:212,lvl:7},{id:'gold',name:'Золото',hue:44,stars:50},{id:'rainbow',name:'Призма',hue:300,stars:150,rainbow:true}];
 const TAP_UPS=[
   {id:'tap',name:'Мощный удар',m:'tap',base:50,mult:1.55,desc:'+1 к силе удара'},
-  {id:'energy',name:'Ёмкость ядра',m:'energy',base:120,mult:1.5,desc:'+250 к запасу энергии'},
-  {id:'regen',name:'Перезарядка',m:'regen',base:300,mult:1.8,max:15,desc:'+0,1 энергии в секунду'},
+  {id:'energy',name:'Масляный фонарь',m:'energy',base:120,mult:1.5,desc:'+250 к запасу энергии'},
+  {id:'regen',name:'Кузнечные меха',m:'regen',base:300,mult:1.8,max:15,desc:'+0,1 энергии в секунду'},
   {id:'crit',name:'Огранка',m:'crit',base:2500,mult:2.2,max:20,desc:'+1% шанс критического удара x6'}
 ];
-const MINERS=[{id:'m1',name:'Гном-рудокоп',base:100,pps:1},{id:'m2',name:'Паровой бур',base:1100,pps:8},{id:'m3',name:'Лавовый резак',base:12000,pps:47},{id:'m4',name:'Глубинная штольня',base:130000,pps:260},{id:'m5',name:'Кузня под горой',base:1.4e6,pps:1400},{id:'m6',name:'Лавовый вихрь',base:2e7,pps:7800},{id:'m7',name:'Врата Подгорного царства',base:3.3e8,pps:44000}].map(m=>Object.assign(m,{mult:1.15,m:m.id,miner:true}));
+const MINERS=[{id:'m1',name:'Гном-рудокоп',base:100,pps:1},{id:'m2',name:'Паровой бур',base:1100,pps:8},{id:'m3',name:'Лавовая вагонетка',base:12000,pps:47},{id:'m4',name:'Глубинная штольня',base:130000,pps:260},{id:'m5',name:'Кузня под горой',base:1.4e6,pps:1400},{id:'m6',name:'Плавильная печь',base:2e7,pps:7800},{id:'m7',name:'Врата Подгорного царства',base:3.3e8,pps:44000}].map(m=>Object.assign(m,{mult:1.15,m:m.id,miner:true}));
 const MILES=[10,25,50,100,200];
 const SHOP=[{id:'starter',name:'Стартовый набор',stars:25,desc:'50 000 кристаллов и ускоритель x2 на час',once:true,hot:true},{id:'refill',name:'Полная энергия',stars:5,desc:'Мгновенно заполнить энергию'},{id:'boost2',name:'Кирка-ускоритель x2',stars:15,desc:'x2 к ударам и добыче на 1 час'},{id:'boost3',name:'Гномий раж x3',stars:75,desc:'x3 ко всей добыче на 24 часа'},{id:'vault',name:'Хранилище',stars:39,desc:'Офлайн-доход копится до 12 часов',once:true},{id:'bag',name:'Сундук кристаллов',stars:99,desc:'4 часа пассивного дохода, минимум 250 000'}];
 const DAILY=[500,1000,2500,5000,10000,25000,50000];
@@ -65,45 +65,45 @@ const ACH=[
 const MATS=[{id:'ore',n:'Руда',c:'#c87a4a'},{id:'coal',n:'Уголь',c:'#6a625d'},{id:'quartz',n:'Кварц',c:'#cfe8ff'},{id:'ember',n:'Жар-камень',c:'#ff5a1e'},{id:'star',n:'Светопыль',c:'#b48cff'}];
 const MAT=Object.fromEntries(MATS.map(m=>[m.id,m]));
 const ITEMS=[
-  {id:'tongs',n:'Клещи мастера',d:'+15% к силе удара',ic:'wrench',need:{ore:25,coal:10},c:1500,fx:{tap:.15}},
-  {id:'furnace',n:'Угольная печь',d:'+15% к добыче добытчиков',ic:'flame',need:{ore:40,coal:45},c:6000,fx:{pps:.15}},
-  {id:'lens',n:'Кварцевая линза',d:'+3% к шансу крита',ic:'eye',need:{quartz:12,ore:30},c:2e4,fx:{crit:.03}},
+  {id:'tongs',n:'Клещи мастера',d:'+15% к силе удара',ic:'tongs',need:{ore:25,coal:10},c:1500,fx:{tap:.15}},
+  {id:'furnace',n:'Угольная печь',d:'+15% к добыче добытчиков',ic:'furnace',need:{ore:40,coal:45},c:6000,fx:{pps:.15}},
+  {id:'lens',n:'Кварцевая линза',d:'+3% к шансу крита',ic:'lens',need:{quartz:12,ore:30},c:2e4,fx:{crit:.03}},
   {id:'cell',n:'Жаровой аккумулятор',d:'+300 к запасу энергии',ic:'bolt',need:{coal:70,quartz:15},c:4e4,fx:{en:300}},
-  {id:'fhammer',n:'Огненный молот',d:'Крит бьёт x8 вместо x6',ic:'anvil',need:{ember:10,ore:90,quartz:20},c:15e4,fx:{critx:2}},
-  {id:'compass',n:'Рудный компас',d:'Светлячки прилетают на 35% чаще',ic:'meteor',need:{star:5,quartz:30},c:3e5,fx:{met:.35}},
-  {id:'amulet',n:'Амулет горна',d:'Горн остывает на 40% медленнее',ic:'star',need:{ember:20,star:4},c:6e5,fx:{cool:.4}},
-  {id:'crown',n:'Корона кузнеца',d:'+25% ко всей добыче',ic:'trophy',need:{ember:35,star:12,quartz:60},c:25e5,fx:{all:.25}}
+  {id:'fhammer',n:'Огненный молот',d:'Крит бьёт x8 вместо x6',ic:'hammer',need:{ember:10,ore:90,quartz:20},c:15e4,fx:{critx:2}},
+  {id:'compass',n:'Рудный компас',d:'Светлячки прилетают на 35% чаще',ic:'compass',need:{star:5,quartz:30},c:3e5,fx:{met:.35}},
+  {id:'amulet',n:'Амулет горна',d:'Горн остывает на 40% медленнее',ic:'amulet',need:{ember:20,star:4},c:6e5,fx:{cool:.4}},
+  {id:'crown',n:'Корона кузнеца',d:'+25% ко всей добыче',ic:'crown',need:{ember:35,star:12,quartz:60},c:25e5,fx:{all:.25}}
 ];
 const CONS=[
-  {id:'elixir',n:'Эликсир бодрости',d:'Полностью восстанавливает энергию',ic:'bolt',need:{coal:12,quartz:3}},
-  {id:'scroll',n:'Свиток ярости',d:'Ярость x5 на 20 секунд',ic:'flame',need:{ember:4,star:1}},
-  {id:'ingot',n:'Слиток удачи',d:'Буст добычи x2 на 10 минут',ic:'x2',need:{ore:30,coal:20,ember:2}}
+  {id:'elixir',n:'Эликсир бодрости',d:'Полностью восстанавливает энергию',ic:'potion',need:{coal:12,quartz:3}},
+  {id:'scroll',n:'Свиток ярости',d:'Ярость x5 на 20 секунд',ic:'scroll',need:{ember:4,star:1}},
+  {id:'ingot',n:'Слиток удачи',d:'Буст добычи x2 на 10 минут',ic:'ingot',need:{ore:30,coal:20,ember:2}}
 ];
 const RELICS=[
-  {id:'nail',set:'forge',r:1,n:'Кованый гвоздь',d:'+3% к силе удара',ic:'wrench',fx:{tap:.03}},
-  {id:'chisel',set:'forge',r:1,n:'Старое зубило',d:'+3% к силе удара',ic:'anvil',fx:{tap:.03}},
-  {id:'seal',set:'forge',r:2,n:'Печать цеха',d:'+1% к шансу крита',ic:'target',fx:{crit:.01}},
+  {id:'nail',set:'forge',r:1,n:'Кованый гвоздь',d:'+3% к силе удара',ic:'nail',fx:{tap:.03}},
+  {id:'chisel',set:'forge',r:1,n:'Старое зубило',d:'+3% к силе удара',ic:'chisel',fx:{tap:.03}},
+  {id:'seal',set:'forge',r:2,n:'Печать цеха',d:'+1% к шансу крита',ic:'seal',fx:{crit:.01}},
   {id:'heart',set:'forge',r:3,n:'Сердце горна',d:'Горн остывает на 10% медленнее',ic:'flame',fx:{cool:.1}},
-  {id:'helmet',set:'deep',r:1,n:'Каска шахтёра',d:'+3% к добыче добытчиков',ic:'users',fx:{pps:.03}},
-  {id:'lamp',set:'deep',r:1,n:'Фонарь глубин',d:'+100 к запасу энергии',ic:'bolt',fx:{en:100}},
-  {id:'map',set:'deep',r:2,n:'Карта жил',d:'+5% к добыче добытчиков',ic:'chart',fx:{pps:.05}},
+  {id:'helmet',set:'deep',r:1,n:'Каска шахтёра',d:'+3% к добыче добытчиков',ic:'helmet',fx:{pps:.03}},
+  {id:'lamp',set:'deep',r:1,n:'Фонарь глубин',d:'+100 к запасу энергии',ic:'lantern',fx:{en:100}},
+  {id:'map',set:'deep',r:2,n:'Карта жил',d:'+5% к добыче добытчиков',ic:'scroll',fx:{pps:.05}},
   {id:'geode',set:'deep',r:3,n:'Жеода',d:'+5% ко всей добыче',ic:'gem',fx:{all:.05}},
-  {id:'shard',set:'sky',r:1,n:'Крылышко светлячка',d:'Светлячки на 5% чаще',ic:'meteor',fx:{met:.05}},
+  {id:'shard',set:'sky',r:1,n:'Крылышко светлячка',d:'Светлячки на 5% чаще',ic:'gem',fx:{met:.05}},
   {id:'eye',set:'sky',r:2,n:'Глаз пещерника',d:'+1% к шансу крита',ic:'eye',fx:{crit:.01}},
   {id:'chron',set:'sky',r:2,n:'Летопись штолен',d:'Светлячки на 5% чаще',ic:'calendar',fx:{met:.05}},
-  {id:'core',set:'sky',r:3,n:'Сердце самоцвета',d:'+8% ко всей добыче',ic:'star',fx:{all:.08}},
-  {id:'vshard',set:'void',r:1,n:'Осколок пустоты',d:'Крит сильнее на x0.5',ic:'target',fx:{critx:.5}},
+  {id:'core',set:'sky',r:3,n:'Сердце самоцвета',d:'+8% ко всей добыче',ic:'gem',fx:{all:.08}},
+  {id:'vshard',set:'void',r:1,n:'Осколок пустоты',d:'Крит сильнее на x0.5',ic:'gem',fx:{critx:.5}},
   {id:'vmask',set:'void',r:1,n:'Маска тени',d:'+1% к шансу крита',ic:'eye',fx:{crit:.01}},
-  {id:'vring',set:'void',r:2,n:'Кольцо разлома',d:'Ярость длится на 25% дольше',ic:'bolt',fx:{frz:.25}},
+  {id:'vring',set:'void',r:2,n:'Кольцо разлома',d:'Ярость длится на 25% дольше',ic:'ring',fx:{frz:.25}},
   {id:'vheart',set:'void',r:3,n:'Сердце бездны',d:'Крит сильнее на x1, горн остывает на 10% медленнее',ic:'flame',fx:{critx:1,cool:.1}},
-  {id:'rcoin',set:'ruins',r:1,n:'Древняя монета',d:'Материалы выпадают на 10% чаще',ic:'gem',fx:{mat:.1}},
+  {id:'rcoin',set:'ruins',r:1,n:'Древняя монета',d:'Материалы выпадают на 10% чаще',ic:'ingot',fx:{mat:.1}},
   {id:'rtab',set:'ruins',r:1,n:'Глиняная табличка',d:'+1 ч к офлайн-добыче',ic:'calendar',fx:{off:1}},
   {id:'rgolem',set:'ruins',r:2,n:'Голова голема',d:'+1 к восстановлению энергии',ic:'users',fx:{regen:1}},
-  {id:'rrune',set:'ruins',r:3,n:'Руна мастера',d:'Материалы на 25% чаще, +5% к добыче',ic:'anvil',fx:{mat:.25,pps:.05}},
+  {id:'rrune',set:'ruins',r:3,n:'Руна мастера',d:'Материалы на 25% чаще, +5% к добыче',ic:'scroll',fx:{mat:.25,pps:.05}},
   {id:'qcup',set:'royal',r:1,n:'Кубок пира',d:'Ежедневная награда +10%',ic:'trophy',fx:{daily:.1}},
-  {id:'qseal',set:'royal',r:1,n:'Королевская печать',d:'+150 к запасу энергии',ic:'check',fx:{en:150}},
+  {id:'qseal',set:'royal',r:1,n:'Королевская печать',d:'+150 к запасу энергии',ic:'seal',fx:{en:150}},
   {id:'qorb',set:'royal',r:2,n:'Держава',d:'Каждый осколок даёт +1% сверху',ic:'refresh',fx:{shard:.01}},
-  {id:'qcrown',set:'royal',r:3,n:'Венец династии',d:'+10% ко всей добыче, ежедневка +25%',ic:'star',fx:{all:.1,daily:.25}}
+  {id:'qcrown',set:'royal',r:3,n:'Венец династии',d:'+10% ко всей добыче, ежедневка +25%',ic:'crown',fx:{all:.1,daily:.25}}
 ];
 const RSETS=[
   {id:'forge',n:'Наследие кузни',d:'+15% к силе удара и +2% к криту',fx:{tap:.15,crit:.02}},

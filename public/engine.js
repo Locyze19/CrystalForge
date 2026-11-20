@@ -97,25 +97,25 @@ const VS=`attribute vec3 aP;attribute vec3 aN;uniform mat4 uM,uVP;varying vec3 v
 const FS=`precision highp float;varying vec3 vN,vW,vL;uniform vec3 uC,uE,uCam,uL,uAcc;uniform float uMet,uRough,uGem,uMode,uShR,uT;
 vec3 aces(vec3 x){return clamp((x*(2.51*x+.03))/(x*(2.43*x+.59)+.14),0.,1.);}
 vec3 env(vec3 d){float y=d.y*.5+.5;vec3 c=mix(vec3(.05,.025,.012),vec3(.3,.16,.08),smoothstep(.2,.55,y));c=mix(c,vec3(.7,.5,.32),smoothstep(.6,1.,y));
-c+=vec3(1.,.86,.62)*pow(max(dot(d,normalize(vec3(-.45,.7,.55))),0.),24.)*4.;
-c+=uAcc*pow(max(dot(d,normalize(vec3(.85,.15,-.5))),0.),10.)*2.4;
-c+=vec3(1.,.45,.1)*pow(max(dot(d,normalize(vec3(0.,-.8,.4))),0.),6.)*1.4;
-c+=vec3(1.,.82,.55)*pow(max(dot(d,normalize(vec3(-.8,.2,-.4))),0.),40.)*2.;
-c+=vec3(1.,.55,.3)*pow(max(dot(d,normalize(vec3(.7,.4,-.6))),0.),40.)*1.6;return c;}
+c+=vec3(1.,.86,.62)*pow(max(dot(d,normalize(vec3(-.45,.7,.55))),0.),5.)*1.1;
+c+=uAcc*pow(max(dot(d,normalize(vec3(.85,.15,-.5))),0.),5.)*1.1;
+c+=vec3(1.,.45,.1)*pow(max(dot(d,normalize(vec3(0.,-.8,.4))),0.),4.)*.9;
+c+=vec3(1.,.82,.55)*pow(max(dot(d,normalize(vec3(-.8,.2,-.4))),0.),10.)*.7;
+c+=vec3(1.,.55,.3)*pow(max(dot(d,normalize(vec3(.7,.4,-.6))),0.),10.)*.55;return c;}
 void main(){
 if(uMode>.5){float r=length(vL.xz)/uShR;float a=pow(clamp(1.-r,0.,1.),1.6)*.62;gl_FragColor=vec4(0.,0.,0.,a);return;}
 vec3 N=normalize(vN);vec3 V=normalize(uCam-vW);if(dot(N,V)<0.)N=-N;
 vec3 R=reflect(-V,N);float NV=max(dot(N,V),0.);vec3 L=normalize(uL);vec3 H=normalize(L+V);
-float dif=max(dot(N,L),0.);dif=floor(dif*3.+.5)/3.;float sh=mix(6.,420.,pow(1.-uRough,2.));float sp=pow(max(dot(N,H),0.),sh)*(sh+8.)/50.;
-vec3 F0=mix(vec3(.04),uC,uMet);vec3 F=F0+(1.-F0)*pow(1.-NV,5.);
+float dif=clamp((dot(N,L)+.4)/1.4,0.,1.);dif=dif*dif*(3.-2.*dif);float sh=mix(4.,60.,pow(1.-uRough,2.));float sp=pow(max(dot(N,H),0.),sh)*(sh+8.)/90.;sp=sp/(1.+sp);
+vec3 F0=mix(vec3(.04),uC,uMet);vec3 F=F0+(1.-F0)*pow(1.-NV,5.)*.6;
 vec3 amb=mix(vec3(.08,.04,.02),vec3(.3,.2,.13),N.y*.5+.5);
-vec3 er=env(R);vec3 blur=mix(env(N),er,1.-uRough);
+vec3 er=mix(env(R),env(N),.35);vec3 blur=mix(env(N),er,1.-uRough);
 vec3 col=uC*(1.-uMet)*(dif*vec3(1.,.9,.75)*1.3+amb)+F*blur*mix(.6,1.25,uMet)+F*sp*1.4;
-col+=uAcc*pow(1.-NV,4.)*.22*(1.-uGem);
-if(uGem>0.){vec3 T=refract(-V,N,.62);vec3 inner=env(T)*uC*1.5+uC*uC*.35;inner+=uC*pow(max(dot(T,L),0.),6.)*1.2;
-float fr=.06+.94*pow(1.-NV,3.5);vec3 g=mix(inner,er*mix(vec3(1.),uC,.35)*1.25,fr)+vec3(1.)*sp*2.2;
-g+=vec3(1.)*pow(max(dot(R,L),0.),180.)*10.;col=mix(col,g,uGem);}
-col+=uE;col=aces(col*1.05);col=pow(col,vec3(1./2.2));col=mix(col,vec3(.12,.06,.025),smoothstep(.3,.1,NV)*(1.-uGem*.55));gl_FragColor=vec4(col,1.);}`;
+col+=uAcc*pow(1.-NV,3.)*.14*(1.-uGem);
+if(uGem>0.){vec3 T=refract(-V,N,.62);vec3 inner=env(T)*uC*1.5+uC*uC*.35;inner+=uC*pow(max(dot(T,L)*.5+.5,0.),4.)*.7;
+float fr=.05+.55*pow(1.-NV,2.5);vec3 g=mix(inner,er*mix(vec3(1.),uC,.5)*.85,fr)+mix(vec3(1.),uC,.4)*sp*.6;
+g+=mix(vec3(1.),uC,.4)*pow(max(dot(R,L),0.),12.)*.35;col=mix(col,g,uGem);}
+col+=uE;col=col/(1.+max(max(col.r,col.g),col.b)*.22);col=aces(col);col=pow(col,vec3(1./2.2));col=mix(col,vec3(.12,.06,.025),smoothstep(.45,0.,NV)*.45*(1.-uGem*.6));gl_FragColor=vec4(col,1.);}`;
 
 class R3D{
   constructor(cv,o={}){

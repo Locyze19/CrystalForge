@@ -59,7 +59,7 @@ const MODELS={
       N(geo('dwbrim',()=>Geo.cyl(.29,.035,24)),MT.brass,[0,.26,0]),
       N(geo('dwlamp',()=>Geo.cyl(.06,.07,14)),MT.steel,[0,.42,.2],[Math.PI/2-.55,0,0]),
       N(geo('dwlg',()=>Geo.cyl(.045,.02,14)),MT.white,[0,.442,.232],[Math.PI/2-.55,0,0],1,[],(n,t)=>{n.e=1.6+Math.sin(t*3)*.2}),
-      N(geo('dwore',()=>Geo.ico(.13,.8,.3,9)),MT.molten,[1.08,-.79,0],[0,0,0],1,[],(n,t)=>{const k=(t*1.1)%1;n.e=1+Math.max(0,1-Math.abs(k-.72)*6)*2}),
+      N(geo('dwore',()=>Geo.ico(.13,.8,.3,9)),MT.molten,[1.08,-.79,0],[0,0,0],1,[],(n,t)=>{const k=(t*1.1)%1;n.e=1.3+Math.sin(t*2.2)*.25}),
       arm,...sparks,SH(-.86,1.25)
     ]),cam:{eye:[.6,.55,4.6],at:[.3,-.12,0]}}
   },
@@ -69,17 +69,17 @@ const MODELS={
     const spin=N(null,null,[0,0,0],[0,0,0],1,[
       N(geo('shaft',()=>Geo.cyl(.05,1.1,12)),MT.steel,[0,.15,0]),
       N(geo('bit',()=>Geo.cone(.2,.55,6)),MT.steel,[0,-.4,0],[Math.PI,0,0]),
-      N(geo('bitr',()=>Geo.torus(.12,.025,24,8)),MT.brass,[0,-.33,0])
+      N(geo('bitr',()=>Geo.torus(.12,.025,24,8)),MT.brass,[0,-.375,0])
     ],(n,t)=>{n.r[1]=t*7;n.p[1]=.3+Math.sin(t*3)*.03});
     return{root:N(null,null,[0,0,0],[0,0,0],1,[
       N(geo('dbase',()=>Geo.box(1.4,.16,1.4)),MT.graph,[0,-.84,0]),
       N(geo('dplate',()=>Geo.box(1.16,.04,1.16)),MT.satin,[0,-.74,0]),
-      ...legs,...brace.map((b,i)=>{const a=i*Math.PI/2;b.p=[Math.sin(a)*.45,-.1,Math.cos(a)*.45];b.r=[0,a+Math.PI/2,0];return b}),
+      ...legs,...brace.map((b,i)=>{const a=i*Math.PI/2;b.p=[Math.sin(a)*.45,-.1,Math.cos(a)*.45];b.r=[0,a,0];return b}),
       N(geo('dtop',()=>Geo.box(1.06,.14,1.06)),MT.graph,[0,.78,0]),
       N(geo('dmot',()=>Geo.cyl(.24,.42,24)),MT.steel,[0,1.04,0]),
-      N(geo('dmotr',()=>Geo.torus(.25,.03,40,8)),MT.molten,[0,.92,0],[0,0,0],1,[],(n,t)=>{n.e=1+Math.sin(t*5)*.3}),
+      N(geo('dmotr',()=>Geo.torus(.25,.03,40,8)),MT.molten,[0,.92,0],[0,0,0],1,[],(n,t)=>{n.e=1+Math.sin(t*2.2)*.15}),
       spin,
-      N(G.s012,MT.hot,[0,-.74,0],[0,0,0],[1,.25,1],[],(n,t)=>{n.e=1.4+Math.sin(t*14)*.6}),
+      N(G.s012,MT.hot,[0,-.74,0],[0,0,0],[1,.25,1],[],(n,t)=>{n.e=1.4+Math.sin(t*2.6)*.18}),
       SH(-.93,1.05)
     ]),cam:{eye:[0,1.4,5.6],at:[0,.1,0]}}
   },
@@ -108,12 +108,12 @@ const MODELS={
     const ST=Mat(0x6a5a50,{rough:.9});
     const lamp=N(null,null,[0,.22,.24],[0,0,0],1,[
       N(geo('msch',()=>Geo.box(.016,.1,.016)),MT.satin,[0,-.05,0]),
-      N(geo('msl',()=>Geo.cyl(.055,.11,6)),MT.hot,[0,-.155,0],[0,0,0],1,[],(n,t)=>{n.e=1.6+Math.sin(t*7)*.15+Math.sin(t*17)*.1}),
+      N(geo('msl',()=>Geo.cyl(.055,.11,6)),MT.hot,[0,-.155,0],[0,0,0],1,[],(n,t)=>{n.e=1.6+Math.sin(t*2.1)*.12}),
       N(geo('mslc',()=>Geo.cone(.075,.06,6)),MT.brass,[0,-.1,0]),
       N(geo('mslb',()=>Geo.cyl(.065,.025,6)),MT.brass,[0,-.222,0])
     ],(n,t)=>{n.r[2]=Math.sin(t*1.3)*.12});
     return{root:N(null,null,[0,0,0],[0,0,0],1,[
-      N(G.rock,ST,[0,-.1,-.45],[0,.3,0],[2,1.5,.8]),
+      N(G.rock,ST,[0,-.23,-.45],[0,.3,0],[2,1.5,.8]),
       N(geo('msop',()=>Geo.box(.8,1,.04)),Mat(0x0a0503,{emi:0x3a1204,ei:.7}),[0,-.38,.1],[0,0,0],1,[],(n,t)=>{n.e=.5+Math.sin(t*.9)*.15}),
       N(geo('mspo',()=>Geo.box(.14,1.1,.14)),MT.wood,[-.48,-.33,.2]),
       N(geo('mspo',()=>Geo.box(.14,1.1,.14)),MT.wood,[.48,-.33,.2]),
@@ -124,23 +124,23 @@ const MODELS={
       N(geo('msrail',()=>Geo.box(.04,.04,1.1)),MT.steel,[-.2,-.86,.7]),
       N(geo('msrail',()=>Geo.box(.04,.04,1.1)),MT.steel,[.2,-.86,.7]),
       ...[.35,.65,.95].map(z=>N(geo('mssl',()=>Geo.box(.6,.04,.1)),MT.wood,[0,-.9,z])),
-      N(G.crT,gem(0xb48cff),[-.82,.18,.05],[.5,0,.6],.8),
-      N(G.crT,gem(0x5ef0d8),[.86,-.32,.05],[.5,0,-.7],.7),
+      N(G.crT,gem(0xb48cff),[-.82,.05,.05],[.5,0,.6],.8),
+      N(G.crT,gem(0x5ef0d8),[.86,-.45,.05],[.5,0,-.7],.7),
       SH(-.93,1.4)
     ]),cam:{eye:[.7,.45,4.6],at:[0,-.22,0]}}
   },
   m5(){
     const sparks=[];for(let i=0;i<7;i++){const ph=i/7;sparks.push(N(G.oct2,MT.hot,[0,0,0],[0,0,0],.6,[],(n,t)=>{const k=(t*.9+ph)%1;const a=ph*6.28;n.p=[Math.cos(a)*k*.9,.05+k*.8-k*k*1.1,.2+Math.abs(Math.sin(a))*k*.5];n.s=.7*(1-k);n.e=3*(1-k)}))}
-    const hammer=N(null,null,[.72,.12,0],[0,0,0],1,[
-      N(geo('hh',()=>Geo.cyl(.035,.85,12)),MT.wood,[-.36,.18,0],[0,0,Math.PI/2+.45]),
-      N(geo('hhead',()=>Geo.box(.2,.34,.2)),MT.steel,[-.72,.38,0],[0,0,.45])
+    const hammer=N(null,null,[.72,.13,0],[0,0,0],1,[
+      N(geo('hh',()=>Geo.cyl(.035,.85,12)),MT.wood,[-.2089,.1281,0],[0,0,Math.PI/2-.55]),
+      N(geo('hhead',()=>Geo.box(.2,.34,.2)),MT.steel,[-.5712,.3502,0],[0,0,-.55])
     ],(n,t)=>{const k=(t*1.1)%1,lo=-.3,w=.55-lo;n.r[2]=k<.25?lo+k*4*w:.55-Math.pow((k-.25)/.75,.5)*w});
     return{root:N(null,null,[0,0,0],[0,0,0],1,[
       N(geo('ab',()=>Geo.box(.6,.24,.46)),MT.graph,[0,-.76,0]),
       N(geo('aw',()=>Geo.box(.34,.3,.3)),MT.dark,[0,-.5,0]),
       N(geo('at',()=>Geo.box(1.1,.24,.46)),MT.satin,[.05,-.24,0]),
-      N(geo('ah',()=>Geo.cone(.12,.5,4)),MT.satin,[-.5,-.2,0],[0,0,Math.PI/2],[1,1,1.3]),
-      N(geo('ing',()=>Geo.box(.42,.08,.18)),MT.hot,[.05,-.08,0],[0,0,0],1,[],(n,t)=>{const k=(t*1.1)%1;n.e=1.4+Math.max(0,1-Math.abs(k-.25)*8)*2}),
+      N(geo('ah',()=>Geo.cone(.12,.5,4)),MT.satin,[-.5,-.24,0],[0,0,Math.PI/2],[1,1,1.3]),
+      N(geo('ing',()=>Geo.box(.42,.08,.18)),MT.hot,[.05,-.08,0],[0,0,0],1,[],(n,t)=>{const k=(t*1.1)%1;n.e=1.7+Math.sin(t*2.2)*.25}),
       hammer,...sparks,SH(-.88,1)
     ]),cam:{eye:[.3,1.2,4.8],at:[0,-.12,0]}}
   },
@@ -152,7 +152,7 @@ const MODELS={
       N(geo('fndome',()=>Geo.lathe([[0,-.76],[.62,-.76],[.64,-.4],[.55,-.05],[.36,.18],[.16,.3],[0,.3]],20,.6)),BR,[0,0,0]),
       N(geo('fnch',()=>Geo.cyl(.13,.6,12)),BR,[0,.55,0]),
       N(geo('fncap',()=>Geo.cyl(.17,.06,12)),MT.dark,[0,.88,0]),
-      N(geo('fnmo',()=>Geo.box(.38,.28,.12)),MT.hot,[0,-.53,.58],[0,0,0],1,[],(n,t)=>{n.e=1.5+Math.sin(t*2.4)*.3+Math.sin(t*7)*.1}),
+      N(geo('fnmo',()=>Geo.box(.38,.28,.12)),MT.hot,[0,-.53,.58],[0,0,0],1,[],(n,t)=>{n.e=1.5+Math.sin(t*2)*.18}),
       N(geo('fnli',()=>Geo.box(.5,.06,.14)),MT.dark,[0,-.36,.57]),
       N(geo('fnba',()=>Geo.cyl(.655,.05,20)),MT.dark,[0,-.62,0]),
       N(G.rockS,MT.graph,[.75,-.8,.45],[1,2,0],.5),
@@ -163,7 +163,7 @@ const MODELS={
   },
   m7(){
     const ST=Mat(0x6e625a,{rough:.85}),SD=Mat(0x4a403a,{rough:.9}),DW=Mat(0x5a3820,{rough:.7});
-    const rune=(x,y,i)=>N(geo('gtr',()=>Geo.box(.05,.2,.015)),MT.hot,[x,y,.177],[0,0,0],1,[],(n,t)=>{n.e=.4+Math.max(0,Math.sin(t*1.6-i*.9))*1.8});
+    const rune=(x,y,i)=>N(geo('gtr',()=>Geo.box(.05,.2,.015)),MT.hot,[x,y,.177],[0,0,0],1,[],(n,t)=>{n.e=.9+(Math.sin(t*1.2-i*.9)*.5+.5)*.7});
     return{root:N(null,null,[0,0,0],[0,0,0],1,[
       N(geo('gts1',()=>Geo.box(2.3,.1,.7)),SD,[0,-.85,.15]),
       N(geo('gts2',()=>Geo.box(2,.1,.5)),ST,[0,-.75,.05]),
@@ -176,7 +176,7 @@ const MODELS={
       N(geo('gtd',()=>Geo.box(.56,1.4,.08)),DW,[-.29,0,0]),
       N(geo('gtd',()=>Geo.box(.56,1.4,.08)),DW,[.29,0,0]),
       ...[-.4,.4].flatMap(y=>[-.29,.29].map(x=>N(geo('gtb',()=>Geo.box(.5,.05,.02)),MT.brass,[x,y,.05]))),
-      N(geo('gtsm',()=>Geo.box(.012,1.36,.06)),MT.hot,[0,0,0],[0,0,0],1,[],(n,t)=>{n.e=.8+Math.sin(t*1.2)*.4}),
+      N(geo('gtsm',()=>Geo.box(.012,1.36,.06)),MT.hot,[0,0,0],[0,0,0],1,[],(n,t)=>{n.e=.8+Math.sin(t*1.2)*.2}),
       N(geo('gtk',()=>Geo.sphere(.04,12)),MT.brass,[-.08,0,.07]),
       N(geo('gtk',()=>Geo.sphere(.04,12)),MT.brass,[.08,0,.07]),
       N(G.oct,gem(0xff8a2a),[0,1.01,.24],[Math.PI/2,0,0],1,[],(n,t)=>{n.emi=[1,.45,.1];n.e=.3+Math.sin(t*1.6)*.2}),
@@ -189,7 +189,7 @@ const MODELS={
       N(geo('th',()=>Geo.cyl(.05,1.5,16)),MT.wood,[0,-.25,0]),
       N(geo('thg',()=>Geo.cyl(.065,.45,16)),MT.rubber,[0,-.78,0]),
       N(geo('thead',()=>Geo.box(.95,.34,.34)),MT.steel,[0,.55,0]),
-      N(geo('tcore',()=>Geo.box(.97,.07,.36)),MT.molten,[0,.55,0],[0,0,0],1,[],(n,t)=>{n.e=1.2+Math.sin(t*4)*.5}),
+      N(geo('tcore',()=>Geo.box(.97,.07,.36)),MT.molten,[0,.55,0],[0,0,0],1,[],(n,t)=>{n.e=1.2+Math.sin(t*2)*.25}),
       N(geo('tcap',()=>Geo.box(.16,.42,.42)),MT.graph,[.52,.55,0]),
       N(geo('tcap',()=>Geo.box(.16,.42,.42)),MT.graph,[-.52,.55,0])
     ],(n,t)=>{n.r[2]=-.55+Math.sin(t*1.8)*.12;n.p[1]=Math.sin(t*1.8)*.04});
@@ -203,7 +203,7 @@ const MODELS={
       N(geo('lnpl',()=>Geo.cyl(.3,.05,8)),MT.dark,[0,-.715,0]),
       N(geo('lnwk',()=>Geo.cyl(.05,.08,12)),MT.brass,[0,-.65,0]),
       N(geo('lngl',()=>Geo.cyl(.24,.8,8)),gem(0xffe2b0),[0,-.29,0]),
-      N(geo('lnfl',()=>Geo.ellipsoid(.085,.17,16)),MT.white,[0,-.3,0],[0,0,0],1,[],(n,t)=>{const f=1+Math.sin(t*9)*.06+Math.sin(t*23)*.04,b=o.full?1.18:1;n.s=[f*b,f*b*(1+Math.sin(t*6)*.05),f*b];n.e=(o.full?2.6:1.9)+Math.sin(t*11)*.3}),
+      N(geo('lnfl',()=>Geo.ellipsoid(.085,.17,16)),MT.white,[0,-.3,0],[0,0,0],1,[],(n,t)=>{const f=1+Math.sin(t*9)*.06+Math.sin(t*23)*.04,b=o.full?1.18:1;n.s=[f*b,f*b*(1+Math.sin(t*6)*.05),f*b];n.e=(o.full?2.6:1.9)+Math.sin(t*2.4)*.15}),
       ...bars,
       N(geo('lnpl',()=>Geo.cyl(.3,.05,8)),MT.dark,[0,.135,0]),
       N(geo('lnroof',()=>Geo.cone(.32,.3,8)),MT.brass,[0,.16,0]),
@@ -260,9 +260,9 @@ const MODELS={
       N(geo('crb',()=>Geo.box(1.24,.08,.89)),MT.satin,[0,-.7,0]),
       N(geo('crv',()=>Geo.box(.1,.72,.89)),MT.satin,[-.42,-.45,0]),
       N(geo('crv',()=>Geo.box(.1,.72,.89)),MT.satin,[.42,-.45,0]),
-      N(G.crS,gem(0xff7a30),[0,.5,0],[0,0,0],.85,[],(n,t)=>{n.r[1]=t*.9;n.p[1]=.5+Math.sin(t*2)*.04}),
-      N(G.crT,gem(0x7fd3ff),[-.5,.29,.1],[0,0,.4]),
-      N(G.crT,gem(0xa6ff8a),[.5,.29,-.05],[0,0,-.4]),
+      N(G.crS,gem(0xff7a30),[0,.37,0],[0,0,0],.85,[],(n,t)=>{n.r[1]=t*.9;n.p[1]=.37+Math.sin(t*2)*.04}),
+      N(G.crT,gem(0x7fd3ff),[-.5,.25,.1],[0,0,.4]),
+      N(G.crT,gem(0xa6ff8a),[.5,.25,-.05],[0,0,-.4]),
       SH(-.81,1.05)
     ]),cam:{eye:[0,1.4,4.4],at:[0,0,0]}}
   },
@@ -303,14 +303,14 @@ const MODELS={
       N(geo('vf',()=>Geo.box(1.36,.06,.96)),MT.satin,[0,.72,0]),
       N(geo('vf',()=>Geo.box(1.36,.06,.96)),MT.satin,[0,-.62,0]),
       N(geo('vd',()=>Geo.cyl(.46,.08,48)),MT.steel,[0,.05,.46],[Math.PI/2,0,0]),
-      N(geo('vdr',()=>Geo.torus(.46,.03,48,8)),MT.molten,[0,.05,.47],[Math.PI/2,0,0],1,[],(n,t)=>{n.e=.8+Math.sin(t*2)*.4}),
+      N(geo('vdr',()=>Geo.torus(.46,.03,48,8)),MT.molten,[0,.05,.47],[Math.PI/2,0,0],1,[],(n,t)=>{n.e=.8+Math.sin(t*1.6)*.2}),
       ...bolts,
       N(null,null,[0,.05,.54],[0,0,0],1,[0,1,2].map(i=>N(geo('vsp',()=>Geo.box(.52,.05,.05)),MT.brass,[0,0,0],[0,0,i*1.047])).concat([N(geo('vhub',()=>Geo.cyl(.08,.08,24)),MT.brass,[0,0,0],[Math.PI/2,0,0])]),(n,t)=>{n.r[2]=Math.sin(t*1.2)*1.2}),
       SH(-.66,1.05)
     ],(n,t)=>{}),cam:{eye:[1.2,1.1,4.1],at:[0,0,0]}}
   },
   bag(){
-    const gems=[[0xff5a2a,-.36,.06,.15],[0x7fd3ff,0,.1,.22],[0xa6ff8a,.36,.06,.15],[0xffd25a,-.18,.12,-.18],[0xff7fb0,.18,.12,-.18]].map(([c,x,y,z],i)=>N(G.oct,gem(c),[x,y,z],[0,i*2,0],1,[],(n,t)=>{n.r[1]=i*2+t*(.5+i*.1)}));
+    const gems=[[0xff5a2a,-.36,0,.15],[0x7fd3ff,0,.02,.22],[0xa6ff8a,.36,0,.15],[0xffd25a,-.18,.03,-.18],[0xff7fb0,.18,.03,-.18]].map(([c,x,y,z],i)=>N(G.oct,gem(c),[x,y,z],[0,i*2,0],1,[],(n,t)=>{n.r[1]=i*2+t*(.5+i*.1)}));
     return{root:N(null,null,[0,0,0],[0,0,0],1,[
       N(geo('bb',()=>Geo.box(1.2,.6,.8)),MT.wood,[0,-.45,0]),
       N(geo('bbs',()=>Geo.box(1.24,.06,.84)),MT.brass,[0,-.18,0]),
@@ -326,7 +326,7 @@ const MODELS={
     const col=gem(c);
     return{root:N(null,null,[0,0,0],[0,0,0],1,[
       N(G.cr,col,[0,.05,0],[0,0,.05],.62),
-      N(G.crS,col,[-.36,-.38,.1],[0,1,.55],.9),
+      N(G.crS,col,[-.36,-.3,.1],[0,1,.55],.9),
       N(G.crT,col,[.34,-.45,.05],[0,.4,-.6],1),
       N(geo('gb',()=>Geo.cyl(.55,.12,6)),MT.graph,[0,-.72,0]),
       N(geo('gbs',()=>Geo.torus(.55,.015,6,4)),MT.molten,[0,-.66,0]),
@@ -338,10 +338,10 @@ const MODELS={
     return{root:N(null,null,[0,0,0],[0,0,0],1,[
       N(null,null,[0,0,0],[0,0,0],1,[
         N(geo('fbody',()=>Geo.sphere(.34,24)),Mat(0x6a4422,{rough:.5}),[0,.05,0],[0,0,0],[1,.9,1.15]),
-        N(G.s022,Mat(0x3a2a10,{emi:0xffe36a,ei:1.8,rough:.3}),[0,-.2,-.24],[0,0,0],1.3,[],(n,t)=>{n.e=1.1+Math.sin(t*5)*.4}),
+        N(G.s022,Mat(0x3a2a10,{emi:0xffe36a,ei:1.8,rough:.3}),[0,-.02,-.08],[0,0,0],.8,[],(n,t)=>{n.e=1.1+Math.sin(t*2.2)*.2}),
         N(G.s006,MT.white,[-.13,.18,.3],[0,0,0],1.3),
         N(G.s006,MT.white,[.13,.18,.3],[0,0,0],1.3),
-        N(G.oct,gem(0x7fffd8),[0,.44,0],[0,0,0],1.4,[],(n,t)=>{n.r[1]=t*2}),
+        N(G.oct,gem(0x7fffd8),[0,.39,0],[0,0,0],1.4,[],(n,t)=>{n.r[1]=t*2}),
         wing(-1),wing(1)
       ],(n,t)=>{n.p[1]=Math.sin(t*3)*.06;n.r[1]=Math.sin(t*1.3)*.5})
     ]),cam:{eye:[0,.5,3.6],at:[0,0,0]}}
