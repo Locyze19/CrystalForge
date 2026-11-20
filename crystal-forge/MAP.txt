@@ -1,0 +1,27 @@
+CRYSTAL FORGE — КАРТА ПРОЕКТА (читай это вместо обхода всех файлов)
+
+server/server.js  Node-сервер: раздаёт public/, API (профиль, рейтинг, рефералы, Stars-платежи), CONFIG из .env. Запуск: node server/server.js (DEV=1 — локально без Telegram)
+.env.example      переменные окружения (BOT_TOKEN и др.)
+package.json      зависимости/скрипты
+README.md         установка и деплой
+log.txt           история изменений и TODO
+
+public/index.html  разметка всех экранов: loader, header(.top), 5 вкладок .tab[data-tab=game|up|tasks|friends|shop], .nav, #sheet, #modal, #toast, слои .world(#sky,#bg) .grain .vignette, .stage(#crystal + .stage-aura + .stage-fb + .stage-hit)
+public/style.css   ВЕСЬ дизайн: токены в :root (цвета/радиусы/тени), компоненты .btn .buy .row .bar .chip-acc .tag .badge .empty(.mono=скелетон), редкость рамок через --rar, брейкпоинты 359px / max-height 640 / 600px, reduced-motion, body.lowfx
+public/ui.js       только визуал: WebGL-фон #sky, параллакс, ударная волна/вспышка по тапу, Canvas 2.5D фолбэк кристалла без WebGL, aria/фокус/клавиатура. Игровое состояние не меняет
+public/app.js      ВСЯ игровая логика и рендер UI: TASKS/ACH/TAP_UPS/MINERS/SHOP/SKINS, состояние S (DEF), CFG, render*(), обработчик кликов по data-* (data-up, data-star, data-skin, data-task, data-ach, data-inspect, data-set), сохранение, Telegram WebApp
+public/engine.js   WebGL-движок: R3D (рендер самоцветов), Embers (угольки на #bg), Sparks (искры на #fx)
+public/models.js   3D-модели и сцены: Forge (кристалл на Кузне, hit/tap/setSkin/heat), Thumbs (превью-картинки), Viewer (3D в шите осмотра)
+public/icons.js    SVG-иконки ICO + функция ic(name)
+public/audio.js    звуки/музыка (WebAudio)
+public/preview.html демо-страница вне Telegram
+
+Правила: id и data-* хуки из index.html используются в app.js — не переименовывать. Дизайн правится в style.css (+index.html/ui.js), логика — в app.js. Канал/подписка удалены полностью.
+
+craft — вкладка Горнило (renderCraft, craft, useCons в app.js)
+arena — Арена во вкладке Гильдия (#arena): клиент renderArena/openArena/pvFight/pvReplay/openPvLog/openPvTop и data-pvgo/data-pvrev/data-pvdef/data-pvatk в app.js; сервер fighter/battle/pvpPick/pOut и маршруты /api/pvp, /api/pvpfight, /api/pvpre, /api/pvpst, /api/pvpseen, /api/pvpchest, /api/pvptop в server.js; данные игрока в db.users[id].p; стили .ar* и .pv-* в style.css
+exp — экспедиции во вкладке Гильдия (#exp): клиент loadExp/renderExp/exGo/exClaim/exTimer и data-exgo, #exClaim в app.js; сервер EXP/expSt/expOut/expTick и маршруты /api/exp, /api/expgo, /api/expdone в server.js; данные в db.users[id].ex; стили .bs.ex, .ex-* в style.css
+tower — бесконечная башня во вкладке Гильдия (#tower): клиент loadTower/renderTower/twFight/twResult/twTop и data-twst, #twGo, #twTop в app.js, реплей через pvReplay(r,done); сервер twSt/twFoe/twRw/twOut и маршруты /api/tower, /api/towerfight, /api/towertop в server.js; данные в db.users[id].tw; стили .bs.tw в style.css
+
+public/admin.html, admin.css, admin.js — CRM-панель администратора (открывается из /admin).
+server/server.js — блок ADM: CRM-эндпоинты, сегменты, заметки и теги (db.crm), журнал админов (db.alog), активность по дням (db.dact).
