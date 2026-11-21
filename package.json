@@ -1,0 +1,14 @@
+{
+  "name": "crystal-forge",
+  "version": "2.15.1",
+  "private": true,
+  "description": "Telegram Mini App idle game with Telegram Stars",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "DEV=1 node server/server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
