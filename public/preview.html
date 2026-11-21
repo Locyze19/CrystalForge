@@ -1,9 +1,0 @@
-<!doctype html><html><body style="margin:0;background:#0d0c0b"><div id="g" style="display:grid;grid-template-columns:repeat(6,160px);gap:4px"></div><div id="err" style="color:#fff"></div>
-<script src="engine.js"></script><script src="models.js"></script>
-<script>
-try{const th=new Thumbs(160);document.getElementById('err').textContent='ok='+th.ok;
-const keys=['m1','m2','m3','m4','m5','m6','m7','tap','energy','regen','crit','starter','refill','boost2','boost3','vault','bag','meteor','friends'];
-for(const k of keys){const im=new Image();im.src=th.make(k,MODELS[k]);im.width=160;document.getElementById('g').appendChild(im)}
-for(const c of [0xb46bff,0x2bd97a,0xff3355,0x3a7bff,0xffc23a]){const im=new Image();im.src=th.make('g'+c,()=>MODELS.gem(c));im.width=160;document.getElementById('g').appendChild(im)}
-}catch(e){document.getElementById('err').textContent=e.stack}
-</script></body></html>
